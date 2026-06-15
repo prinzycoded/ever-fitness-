@@ -112,7 +112,7 @@ export default function Dashboard() {
   const clientMap = Object.fromEntries(clients.map(c => [c.id, c.name]))
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
         <Typography variant="h5" fontWeight={700}>Dashboard</Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 0.25 }}>Welcome back! Here's your fitness overview.</Typography>

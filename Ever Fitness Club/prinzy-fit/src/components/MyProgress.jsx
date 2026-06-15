@@ -35,8 +35,8 @@ export default function MyProgress() {
     : null
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between">
         <Box>
           <Typography variant="h5" fontWeight={700}>My Progress</Typography>
           <Typography variant="body2" color="text.secondary">Track your measurements over time</Typography>
@@ -53,13 +53,13 @@ export default function MyProgress() {
             <Grid item xs={6}>
               <TextField type="date" label="Date" size="small" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} fullWidth InputLabelProps={{ shrink: true }} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} sm={6}>
               <TextField label="Weight (kg)" type="number" size="small" value={form.weight} onChange={e => setForm({ ...form, weight: e.target.value })} fullWidth required />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={6} sm={6}>
               <TextField label="Body Fat %" type="number" size="small" value={form.bodyFat} onChange={e => setForm({ ...form, bodyFat: e.target.value })} fullWidth />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} sm={6}>
               <TextField label="Notes" size="small" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} fullWidth />
             </Grid>
           </Grid>
@@ -73,19 +73,19 @@ export default function MyProgress() {
         <>
           {weightChange !== null && (
             <Grid container spacing={2}>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
                   <Typography variant="caption" fontWeight={600} color="text.secondary">Starting Weight</Typography>
                   <Typography variant="h5" fontWeight={700} sx={{ mt: 0.5 }}>{first.weight} kg</Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
                   <Typography variant="caption" fontWeight={600} color="text.secondary">Current Weight</Typography>
                   <Typography variant="h5" fontWeight={700} sx={{ mt: 0.5 }}>{latest.weight} kg</Typography>
                 </Paper>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} sm={4}>
                 <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
                   <Typography variant="caption" fontWeight={600} color="text.secondary">Change</Typography>
                   <Typography variant="h5" fontWeight={700} sx={{ mt: 0.5, color: Number(weightChange) < 0 ? 'success.main' : Number(weightChange) > 0 ? 'error.main' : 'text.primary' }}>
@@ -96,7 +96,7 @@ export default function MyProgress() {
             </Grid>
           )}
 
-          <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+          <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider', overflowX: 'auto' }}>
             <Table size="small">
               <TableHead>
                 <TableRow sx={{ bgcolor: 'grey.50' }}>

@@ -60,8 +60,8 @@ function RestTimer({ duration, onComplete }) {
 function PerformanceInput({ exercise, index, onChange, value }) {
   return (
     <Box sx={{ bgcolor: 'grey.50', borderRadius: 1.5, p: 1.5 }}>
-      <Grid container spacing={1}>
-        <Grid item xs={4}>
+        <Grid container spacing={1}>
+        <Grid item xs={6} sm={4}>
           <TextField
             type="number" size="small" label="Actual Sets"
             value={value?.actualSets ?? exercise.sets}
@@ -76,7 +76,7 @@ function PerformanceInput({ exercise, index, onChange, value }) {
             Target: {exercise.sets}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={6} sm={4}>
           <TextField
             type="number" size="small" label="Actual Reps"
             value={value?.actualReps ?? exercise.reps}
@@ -91,7 +91,7 @@ function PerformanceInput({ exercise, index, onChange, value }) {
             Target: {exercise.reps}
           </Typography>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <TextField
             type="number" size="small" label="Actual Weight"
             value={value?.actualWeight ?? exercise.weight}

@@ -31,7 +31,7 @@ export default function AdherenceTable() {
   const statuses = ['adherent', 'partial', 'missed'] 
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box>
           <Typography variant="h5" fontWeight={700}>Adherence Tracking</Typography>
@@ -44,7 +44,7 @@ export default function AdherenceTable() {
         </ToggleButtonGroup>
       </Stack>
 
-      <Stack direction="row" spacing={2}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
         {Object.entries(STATUS_CONFIG).map(([key, cfg]) => {
           const Icon = cfg.icon
           const count = data.filter(d => d.status === key).length
@@ -62,7 +62,7 @@ export default function AdherenceTable() {
         })}
       </Stack>
 
-      <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+      <TableContainer component={Paper} elevation={0} sx={{ borderRadius: 2, border: '1px solid', borderColor: 'divider', overflowX: 'auto' }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -72,7 +72,7 @@ export default function AdherenceTable() {
               <TableCell sx={{ fontWeight: 600, fontSize: 12, color: 'text.secondary' }} align="center">Completed</TableCell>
               <TableCell sx={{ fontWeight: 600, fontSize: 12, color: 'text.secondary' }} align="center">Streak</TableCell>
               {period === 'week' && weekDays.map(day => (
-                <TableCell key={day} sx={{ fontWeight: 600, fontSize: 10, color: 'text.secondary', px: 0.5 }} align="center">{day}</TableCell>
+                <TableCell key={day} sx={{ fontWeight: 600, fontSize: 10, color: 'text.secondary', px: 0.5, display: { xs: 'none', sm: 'table-cell' } }} align="center">{day}</TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -118,7 +118,7 @@ export default function AdherenceTable() {
                     const dayStatus = statuses[Math.floor(Math.random() * statuses.length)]
                     const dayCfg = STATUS_CONFIG[dayStatus]
                     return (
-                      <TableCell key={day} align="center" sx={{ px: 0.5 }}>
+                      <TableCell key={day} align="center" sx={{ px: 0.5, display: { xs: 'none', sm: 'table-cell' } }}>
                         <Tooltip title={`${row.clientName} - ${day}: ${dayCfg.label}`}>
                           <Box sx={{ width: 20, height: 20, borderRadius: 0.5, bgcolor: `${dayCfg.color}.main`, opacity: 0.8, mx: 'auto', cursor: 'pointer' }} />
                         </Tooltip>

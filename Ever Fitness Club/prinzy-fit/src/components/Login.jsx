@@ -28,7 +28,7 @@ export default function Login() {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: 'grey.50', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
-      <Paper elevation={0} sx={{ p: 4, maxWidth: 400, width: '100%', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
+      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 4 }, maxWidth: 400, width: '100%', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
         <Stack spacing={3} alignItems="center" sx={{ mb: 3 }}>
           <Box sx={{ width: 56, height: 56, borderRadius: 2, bgcolor: 'indigo.100', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Dumbbell size={28} className="text-indigo-600" />

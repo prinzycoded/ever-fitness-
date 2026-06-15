@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Box, Typography, Stack, ButtonBase, Divider } from '@mui/material'
+import { Box, Typography, Stack, ButtonBase, Drawer, IconButton, useMediaQuery } from '@mui/material'
 import {
-  LayoutDashboard, Dumbbell, ClipboardList, TrendingUp,
+  LayoutDashboard, ClipboardList, TrendingUp,
   User, LogOut, Dumbbell as LogoIcon, CalendarCheck, CreditCard,
-  CheckSquare, Camera, BookOpen, Clock
+  CheckSquare, Camera, BookOpen, Menu
 } from 'lucide-react'
 import { useAuth } from '../stores/authStore'
 
@@ -29,7 +29,7 @@ const trackingLinks = [
   { to: '/my-coach', label: 'My Coach', icon: User },
 ]
 
-export default function ClientSidebar() {
+function SidebarContent() {
   const { profile, logout } = useAuth()
   const handleLogout = useCallback(() => logout(), [logout])
 
@@ -54,7 +54,7 @@ export default function ClientSidebar() {
   }
 
   return (
-    <Box sx={{ width: 256, bgcolor: 'grey.900', color: 'white', display: 'flex', flexDirection: 'column', minHeight: '100vh', flexShrink: 0 }}>
+    <>
       <Box sx={{ px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'grey.700' }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: 'indigo.600', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -102,6 +102,33 @@ export default function ClientSidebar() {
           </Stack>
         </ButtonBase>
       </Box>
-    </Box>
+    </>
+  )
+}
+
+export default function ClientSidebar() {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  if (isDesktop) {
+    return <Box sx={{ width: 256, bgcolor: 'grey.900', color: 'white', display: 'flex', flexDirection: 'column', minHeight: '100vh', flexShrink: 0 }}><SidebarContent /></Box>
+  }
+
+  return (
+    <>
+      <IconButton
+        onClick={() => setMobileOpen(true)}
+        sx={{ position: 'fixed', top: 8, left: 8, zIndex: 1200, bgcolor: 'grey.900', color: 'white', '&:hover': { bgcolor: 'grey.800' } }}
+      >
+        <Menu size={20} />
+      </IconButton>
+      <Drawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{ sx: { width: 256, bgcolor: 'grey.900', color: 'white' } }}
+      >
+        <SidebarContent />
+      </Drawer>
+    </>
   )
 }

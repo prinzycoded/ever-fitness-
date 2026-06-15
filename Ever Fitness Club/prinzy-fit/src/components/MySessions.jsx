@@ -17,26 +17,26 @@ export default function MySessions() {
   const todaySessions = myWorkouts.filter(w => w.scheduledDate === today && w.status === 'scheduled')
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
         <Typography variant="h5" fontWeight={700}>My Sessions</Typography>
         <Typography variant="body2" color="text.secondary">View your scheduled and completed sessions</Typography>
       </Box>
 
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Today's Sessions</Typography>
             <Typography variant="h4" fontWeight={700} sx={{ mt: 0.5 }}>{todaySessions.length}</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Completed</Typography>
             <Typography variant="h4" fontWeight={700} color="success.main" sx={{ mt: 0.5 }}>{myWorkouts.filter(w => w.status === 'completed').length}</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Upcoming</Typography>
             <Typography variant="h4" fontWeight={700} color="info.main" sx={{ mt: 0.5 }}>{myWorkouts.filter(w => w.status === 'scheduled').length}</Typography>
@@ -63,8 +63,8 @@ export default function MySessions() {
               </Stack>
               <Stack spacing={0.75}>
                 {w.exercises?.length > 0 ? w.exercises.map((ex, i) => (
-                  <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1 }}>
-                    <Typography variant="body2" fontWeight={500}>{ex.name}</Typography>
+                  <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1, overflow: 'hidden' }}>
+                    <Typography variant="body2" fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>{ex.name}</Typography>
                     <Typography variant="caption" color="text.secondary">
                       {ex.actualSets ?? ex.sets} x {ex.actualReps ?? ex.reps}{(ex.actualWeight ?? ex.weight) > 0 ? ` @ ${ex.actualWeight ?? ex.weight}kg` : ''}
                     </Typography>

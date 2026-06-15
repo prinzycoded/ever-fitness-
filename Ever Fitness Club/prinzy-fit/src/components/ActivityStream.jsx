@@ -31,7 +31,7 @@ export default function ActivityStream() {
   const filtered = filter === 'all' ? activities : activities.filter(a => a.type === filter)
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Typography variant="h5" fontWeight={700}>Activity Stream</Typography>
         <IconButton size="small"><RefreshCw size={16} /></IconButton>

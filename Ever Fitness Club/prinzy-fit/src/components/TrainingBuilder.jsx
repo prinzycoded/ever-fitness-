@@ -175,14 +175,14 @@ export default function TrainingBuilder() {
   }, [selectedPlan, activeDay])
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'stretch', sm: 'center' }} justifyContent="space-between" spacing={1}>
         <Box>
           <Typography variant="h5" fontWeight={700}>Training Builder</Typography>
           <Typography variant="body2" color="text.secondary">Drag-and-drop workout planning</Typography>
         </Box>
-        <Stack direction="row" spacing={1}>
-          <TextField select size="small" value={selectedPlan?.id || ''} onChange={e => setSelectedPlan(plans.find(p => p.id === e.target.value))} sx={{ minWidth: 200 }}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1}>
+          <TextField select size="small" value={selectedPlan?.id || ''} onChange={e => setSelectedPlan(plans.find(p => p.id === e.target.value))} sx={{ minWidth: { xs: '100%', sm: 200 } }}>
             {plans.map(p => <MenuItem key={p.id} value={p.id}>{p.name}</MenuItem>)}
           </TextField>
           <Button variant="contained" startIcon={<Save size={16} />} onClick={handleSave} sx={{ textTransform: 'none', fontWeight: 600, borderRadius: 2 }}>

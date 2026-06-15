@@ -15,7 +15,7 @@ export default function MyWorkouts() {
   const filtered = filter === 'all' ? myWorkouts : myWorkouts.filter(w => w.status === filter)
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
         <Typography variant="h5" fontWeight={700}>My Workouts</Typography>
         <Typography variant="body2" color="text.secondary">{myWorkouts.length} total workouts assigned</Typography>
@@ -40,8 +40,8 @@ export default function MyWorkouts() {
               </Stack>
               <Stack spacing={0.75}>
                 {w.exercises?.length > 0 ? w.exercises.map((ex, i) => (
-                  <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1 }}>
-                    <Typography variant="body2" fontWeight={500}>{ex.name}</Typography>
+                  <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1, overflow: 'hidden' }}>
+                    <Typography variant="body2" fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>{ex.name}</Typography>
                     <Typography variant="caption" color="text.secondary">
                       {ex.actualSets ?? ex.sets} x {ex.actualReps ?? ex.reps}{(ex.actualWeight ?? ex.weight) > 0 ? ` @ ${ex.actualWeight ?? ex.weight}kg` : ''}
                     </Typography>

@@ -33,14 +33,14 @@ export default function MyCoach() {
 
   if (!coach) {
     return (
-      <Box sx={{ p: 3 }}>
+      <Box sx={{ p: { xs: 2, md: 3 } }}>
         <Typography variant="body2" color="text.disabled">Coach information not available yet.</Typography>
       </Box>
     )
   }
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
         <Typography variant="h5" fontWeight={700}>My Coach</Typography>
         <Typography variant="body2" color="text.secondary">Your personal trainer and guide</Typography>
@@ -56,7 +56,7 @@ export default function MyCoach() {
             <Typography variant="body2" color="text.secondary">{coach.specialization}</Typography>
           </Box>
         </Stack>
-        <Stack direction="row" spacing={2}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.50', borderRadius: 1, flex: 1 }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Email</Typography>
             <Typography variant="body2" sx={{ mt: 0.5 }}>{coach.email}</Typography>

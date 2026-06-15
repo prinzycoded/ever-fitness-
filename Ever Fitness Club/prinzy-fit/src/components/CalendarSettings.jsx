@@ -8,14 +8,14 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 
 function TimeSlot({ slot, index, onChange, onRemove }) {
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
-      <TextField select size="small" value={slot.day} onChange={e => onChange(index, 'day', e.target.value)} sx={{ width: 140 }}>
+    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} alignItems={{ xs: 'stretch', sm: 'center' }}>
+      <TextField select size="small" value={slot.day} onChange={e => onChange(index, 'day', e.target.value)} sx={{ width: { xs: '100%', sm: 140 } }}>
         {DAYS.map(d => <MenuItem key={d} value={d}>{d}</MenuItem>)}
       </TextField>
-      <TextField type="time" size="small" value={slot.start} onChange={e => onChange(index, 'start', e.target.value)} sx={{ width: 120 }} slotProps={{ inputLabel: { shrink: true } }} />
-      <Typography variant="body2" color="text.secondary">to</Typography>
-      <TextField type="time" size="small" value={slot.end} onChange={e => onChange(index, 'end', e.target.value)} sx={{ width: 120 }} slotProps={{ inputLabel: { shrink: true } }} />
-      <IconButton size="small" onClick={() => onRemove(index)} color="error"><Trash2 size={16} /></IconButton>
+      <TextField type="time" size="small" value={slot.start} onChange={e => onChange(index, 'start', e.target.value)} sx={{ width: { xs: '100%', sm: 120 } }} slotProps={{ inputLabel: { shrink: true } }} />
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center' }}>to</Typography>
+      <TextField type="time" size="small" value={slot.end} onChange={e => onChange(index, 'end', e.target.value)} sx={{ width: { xs: '100%', sm: 120 } }} slotProps={{ inputLabel: { shrink: true } }} />
+      <IconButton size="small" onClick={() => onRemove(index)} color="error" sx={{ alignSelf: { xs: 'flex-end', sm: 'center' } }}><Trash2 size={16} /></IconButton>
     </Stack>
   )
 }
@@ -52,8 +52,8 @@ export default function CalendarSettings() {
   }))
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={1}>
         <Box>
           <Typography variant="h5" fontWeight={700}>Working Hours</Typography>
           <Typography variant="body2" color="text.secondary">Set your available time slots using Google Calendar sync</Typography>

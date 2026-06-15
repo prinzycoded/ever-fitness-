@@ -15,7 +15,7 @@ const PATHS = [
   'clients', 'workouts', 'progress', 'payments', 'notifications',
   'programs', 'workingHours', 'automationRules', 'bookings',
   'activityLog', 'adherence', 'exercises', 'trainingPlans',
-  'coachingNotes',
+  'coachingNotes', 'progressPhotos',
 ]
 
 const useAppStore = create((setState, getState) => ({
@@ -37,6 +37,7 @@ const useAppStore = create((setState, getState) => ({
   exercises: [],
   trainingPlans: [],
   coachingNotes: [],
+  progressPhotos: [],
 
   _unsubscribes: [],
 

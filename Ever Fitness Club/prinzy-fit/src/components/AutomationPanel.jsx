@@ -96,8 +96,8 @@ export default function AutomationPanel() {
   }, [rules, addAutomationRule, updateAutomationRule])
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={1}>
         <Box>
           <Typography variant="h5" fontWeight={700}>Automation Panel</Typography>
           <Typography variant="body2" color="text.secondary">Specify what happens after a client books and pays</Typography>

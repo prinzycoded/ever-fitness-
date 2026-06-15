@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Box, Typography, Stack, Badge, ButtonBase, Divider } from '@mui/material'
+import { Box, Typography, Stack, Badge, ButtonBase, Drawer, IconButton, useMediaQuery } from '@mui/material'
 import {
   LayoutDashboard, Users, Bell, LogOut, Dumbbell as LogoIcon,
   Calendar, Zap, Package, Activity, Table, GripVertical, BookOpen,
-  ClipboardList, TrendingUp, Dumbbell, MessageSquareText
+  ClipboardList, TrendingUp, Dumbbell, MessageSquareText, Menu
 } from 'lucide-react'
 import { useApp } from '../stores/appStore'
 import { useAuth } from '../stores/authStore'
@@ -34,7 +34,7 @@ const trainingLinks = [
   { to: '/exercises', label: 'Exercise Library', icon: BookOpen },
 ]
 
-export default function Sidebar() {
+function SidebarContent() {
   const { coach, unreadNotifications } = useApp()
   const { logout } = useAuth()
 
@@ -61,7 +61,7 @@ export default function Sidebar() {
   }
 
   return (
-    <Box sx={{ width: 256, color: 'white', display: 'flex', flexDirection: 'column', minHeight: '100vh', flexShrink: 0, backgroundImage: 'linear-gradient(rgba(15,15,25,0.92),rgba(15,15,25,0.92)),url(https://placehold.co/400x900/1e1b4b/indigo?text=)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
+    <>
       <Box sx={{ px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'grey.700' }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: 'indigo.600', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -99,7 +99,6 @@ export default function Sidebar() {
         <Stack spacing={0.5} sx={{ mb: 0.5 }}>
           {trainingLinks.map(renderLink)}
         </Stack>
-
       </Box>
 
       <Box sx={{ px: 2.5, py: 2, borderTop: '1px solid', borderColor: 'grey.700' }}>
@@ -118,6 +117,44 @@ export default function Sidebar() {
           </ButtonBase>
         </Stack>
       </Box>
-    </Box>
+    </>
+  )
+}
+
+export default function Sidebar() {
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+  const [mobileOpen, setMobileOpen] = useState(false)
+
+  const sidebarBg = {
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundImage: 'linear-gradient(rgba(15,15,25,0.92),rgba(15,15,25,0.92)),url(https://placehold.co/400x900/1e1b4b/indigo?text=)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+  }
+
+  if (isDesktop) {
+    return <Box sx={{ ...sidebarBg, width: 256, flexShrink: 0 }}><SidebarContent /></Box>
+  }
+
+  return (
+    <>
+      <IconButton
+        onClick={() => setMobileOpen(true)}
+        sx={{ position: 'fixed', top: 8, left: 8, zIndex: 1200, bgcolor: 'grey.900', color: 'white', '&:hover': { bgcolor: 'grey.800' } }}
+      >
+        <Menu size={20} />
+      </IconButton>
+      <Drawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{ sx: { width: 256, ...sidebarBg } }}
+      >
+        <SidebarContent />
+      </Drawer>
+    </>
   )
 }

@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'react'
-import { Box, Typography, Paper, Button, Stack, Grid, IconButton, Dialog, DialogTitle, DialogContent, TextField } from '@mui/material'
+import { Box, Typography, Paper, Button, Stack, Grid, IconButton, Dialog, DialogTitle, DialogContent, TextField, MenuItem } from '@mui/material'
 import { Camera, Upload, Trash2, Clock, Plus } from 'lucide-react'
 import { useApp } from '../stores/appStore'
 import { useAuth } from '../stores/authStore'
@@ -12,13 +12,16 @@ const categories = [
 ]
 
 export default function ProgressPhotos() {
-  const { addProgressPhoto } = useApp()
+  const { progressPhotos, addProgressPhoto } = useApp()
   const { profile, user } = useAuth()
   const fileInputRef = useRef(null)
   const [photos, setPhotos] = useState([])
   const [showUpload, setShowUpload] = useState(false)
   const [uploadForm, setUploadForm] = useState({ note: '', category: 'front', date: new Date().toISOString().slice(0, 10) })
   const [preview, setPreview] = useState(null)
+
+  const clientPhotos = progressPhotos.filter(p => p.clientId === profile?.id || p.clientId === profile?.email)
+  const displayPhotos = photos.length > 0 ? photos : clientPhotos
 
   const handleFileSelect = (e) => {
     const file = e.target.files?.[0]
@@ -39,23 +42,23 @@ export default function ProgressPhotos() {
       date: uploadForm.date,
     }
     const created = await addProgressPhoto(photo)
-    setPhotos([{ ...created, id: created.id || `p_${Date.now()}` }, ...photos])
+    setPhotos([{ ...created, id: created.id || `p_${Date.now()}` }, ...displayPhotos])
     setShowUpload(false)
     setPreview(null)
     setUploadForm({ note: '', category: 'front', date: new Date().toISOString().slice(0, 10) })
-  }, [uploadForm, preview, photos, addProgressPhoto, profile, user])
+  }, [uploadForm, preview, displayPhotos, addProgressPhoto, profile, user])
 
-  const removePhoto = (id) => setPhotos(photos.filter(p => p.id !== id))
+  const removePhoto = (id) => setPhotos(displayPhotos.filter(p => p.id !== id))
 
   const grouped = categories.map(cat => ({
     ...cat,
-    photos: photos.filter(p => p.category === cat.value),
+    photos: displayPhotos.filter(p => p.category === cat.value),
   }))
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 }, maxWidth: 1000, mx: 'auto' }}>
       <Stack spacing={3}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between">
           <Box>
             <Typography variant="h5" fontWeight={700}>Progress Photos</Typography>
             <Typography variant="body2" color="text.secondary">Track your transformation visually</Typography>
@@ -138,7 +141,7 @@ export default function ProgressPhotos() {
               </Box>
               <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileSelect} />
               <TextField select label="Category" size="small" value={uploadForm.category} onChange={e => setUploadForm({ ...uploadForm, category: e.target.value })} fullWidth>
-                {categories.map(c => <Typography key={c.value} component="option" value={c.value}>{c.label}</Typography>)}
+                {categories.map(c => <MenuItem key={c.value} value={c.value}>{c.label}</MenuItem>)}
               </TextField>
               <TextField type="date" label="Date" size="small" value={uploadForm.date} onChange={e => setUploadForm({ ...uploadForm, date: e.target.value })} fullWidth InputLabelProps={{ shrink: true }} />
               <TextField label="Notes" size="small" multiline rows={2} value={uploadForm.note} onChange={e => setUploadForm({ ...uploadForm, note: e.target.value })} fullWidth placeholder="e.g., Front view - week 3" />

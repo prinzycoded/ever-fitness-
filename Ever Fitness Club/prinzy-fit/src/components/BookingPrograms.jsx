@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Box, Typography, Paper, Button, Stack, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Chip, IconButton } from '@mui/material'
+import { Box, Typography, Paper, Button, Stack, Grid, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Chip, IconButton, MenuItem } from '@mui/material'
 import { Plus, Pencil, Trash2, Package } from 'lucide-react'
 import { useApp } from '../stores/appStore'
 import { defaultPrograms as fallbackPrograms } from '../data/seedData'
@@ -26,15 +26,15 @@ function ProgramForm({ open, onClose, edit }) {
           <TextField label="Program Name" size="small" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} fullWidth required />
           <TextField label="Description" size="small" multiline rows={3} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} fullWidth />
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <TextField type="number" label="Duration" size="small" value={form.duration} onChange={e => setForm({ ...form, duration: Number(e.target.value) })} fullWidth />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <TextField select label="Unit" size="small" value={form.durationUnit} onChange={e => setForm({ ...form, durationUnit: e.target.value })} fullWidth>
-                {['weeks', 'months'].map(u => <Typography key={u} component="option" value={u}>{u}</Typography>)}
+                {['weeks', 'months'].map(u => <MenuItem key={u} value={u}>{u}</MenuItem>)}
               </TextField>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={4}>
               <TextField type="number" label="Sessions/Week" size="small" value={form.sessionsPerWeek} onChange={e => setForm({ ...form, sessionsPerWeek: Number(e.target.value) })} fullWidth />
             </Grid>
           </Grid>
@@ -65,8 +65,8 @@ export default function BookingPrograms() {
   }
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between" spacing={1}>
         <Box>
           <Typography variant="h5" fontWeight={700}>Booking Programs</Typography>
           <Typography variant="body2" color="text.secondary">Define what each booking includes</Typography>

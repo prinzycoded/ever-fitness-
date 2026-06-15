@@ -26,7 +26,7 @@ export default function CoachNotes() {
   }
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
       <Box>
         <Typography variant="h5" fontWeight={700}>Coaching Notes</Typography>
         <Typography variant="body2" color="text.secondary">Drop instructions, feedback, and info for your clients</Typography>

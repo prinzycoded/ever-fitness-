@@ -106,7 +106,7 @@ export default function Checkout() {
       </Stepper>
 
       {step === 0 && (
-        <Paper elevation={0} sx={{ p: 3, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+        <Paper elevation={0} sx={{ p: { xs: 2, md: 3 }, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
           <Stack spacing={2}>
             <Stack direction="row" spacing={2} alignItems="center">
               <Box sx={{ width: 48, height: 48, borderRadius: 1.5, bgcolor: 'indigo.100', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -119,9 +119,9 @@ export default function Checkout() {
             </Stack>
             <Divider />
             <Grid container spacing={2}>
-              <Grid item xs={4}><Typography variant="caption" color="text.secondary">Duration</Typography><Typography variant="body2" fontWeight={600}>{program.duration} {program.durationUnit}</Typography></Grid>
-              <Grid item xs={4}><Typography variant="caption" color="text.secondary">Sessions/Week</Typography><Typography variant="body2" fontWeight={600}>{program.sessionsPerWeek}</Typography></Grid>
-              <Grid item xs={4}><Typography variant="caption" color="text.secondary">Total Sessions</Typography><Typography variant="body2" fontWeight={600}>{program.duration * program.sessionsPerWeek}</Typography></Grid>
+              <Grid item xs={12} sm={4}><Typography variant="caption" color="text.secondary">Duration</Typography><Typography variant="body2" fontWeight={600}>{program.duration} {program.durationUnit}</Typography></Grid>
+              <Grid item xs={12} sm={4}><Typography variant="caption" color="text.secondary">Sessions/Week</Typography><Typography variant="body2" fontWeight={600}>{program.sessionsPerWeek}</Typography></Grid>
+              <Grid item xs={12} sm={4}><Typography variant="caption" color="text.secondary">Total Sessions</Typography><Typography variant="body2" fontWeight={600}>{program.duration * program.sessionsPerWeek}</Typography></Grid>
             </Grid>
             <Divider />
             <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -141,10 +141,10 @@ export default function Checkout() {
           <Stack spacing={2}>
             <TextField label="Full Name" size="small" value={form.fullName} onChange={e => update('fullName', e.target.value)} fullWidth required />
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Email" size="small" type="email" value={form.email} onChange={e => update('email', e.target.value)} fullWidth required />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Phone" size="small" value={form.phone} onChange={e => update('phone', e.target.value)} fullWidth />
               </Grid>
             </Grid>
@@ -179,10 +179,10 @@ export default function Checkout() {
             <TextField label="Cardholder Name" size="small" value={form.cardName} onChange={e => update('cardName', e.target.value)} fullWidth required />
             <TextField label="Card Number" size="small" value={form.cardNumber} onChange={e => update('cardNumber', e.target.value)} fullWidth required placeholder="4242 4242 4242 4242" />
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="Expiry Date" size="small" value={form.expiry} onChange={e => update('expiry', e.target.value)} fullWidth required placeholder="MM/YY" />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12} sm={6}>
                 <TextField label="CVV" size="small" value={form.cvv} onChange={e => update('cvv', e.target.value)} fullWidth required placeholder="123" />
               </Grid>
             </Grid>
@@ -202,7 +202,7 @@ export default function Checkout() {
       )}
 
       {step === 3 && (
-        <Paper elevation={0} sx={{ p: 4, borderRadius: 2, border: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
+        <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 4 }, borderRadius: 2, border: '1px solid', borderColor: 'divider', textAlign: 'center' }}>
           <CheckCircle size={64} className="text-green-500" style={{ margin: '0 auto 16px' }} />
           <Typography variant="h5" fontWeight={700} sx={{ mb: 1 }}>Booking Confirmed!</Typography>
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>

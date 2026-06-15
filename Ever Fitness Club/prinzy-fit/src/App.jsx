@@ -49,7 +49,7 @@ function CoachLayout() {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'grey.50' }}>
       <Sidebar />
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', pt: { xs: '48px', md: 0 } }}>
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/clients" element={<Clients />} />
@@ -78,7 +78,7 @@ function ClientLayout() {
   return (
     <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'grey.50' }}>
       <ClientSidebar />
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', pt: { xs: '48px', md: 0 } }}>
         <Routes>
           <Route path="/" element={<ClientDashboard />} />
           <Route path="/my-workouts" element={<MyWorkouts />} />

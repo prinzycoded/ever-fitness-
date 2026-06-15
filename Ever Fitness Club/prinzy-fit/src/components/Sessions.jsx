@@ -24,8 +24,8 @@ function SessionCard({ workout, clientName }) {
       </Stack>
       <Stack spacing={0.75}>
         {workout.exercises?.map((ex, i) => (
-          <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1 }}>
-            <Typography variant="body2" fontWeight={500}>{ex.name}</Typography>
+          <Stack key={i} direction="row" alignItems="center" justifyContent="space-between" sx={{ bgcolor: 'grey.50', borderRadius: 1, px: 1.5, py: 1, overflow: 'hidden' }}>
+            <Typography variant="body2" fontWeight={500} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0, flex: 1 }}>{ex.name}</Typography>
             <Typography variant="caption" color="text.secondary">
               {ex.actualSets ?? ex.sets} × {ex.actualReps ?? ex.reps}{(ex.actualWeight ?? ex.weight) > 0 ? ` @ ${ex.actualWeight ?? ex.weight}kg` : ''}
             </Typography>
@@ -55,8 +55,8 @@ export default function Sessions() {
   const completedToday = workouts.filter(w => w.status === 'completed' && (w.completedDate === today || w.scheduledDate === today))
 
   return (
-    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
+    <Box sx={{ p: { xs: 2, md: 3 }, display: 'flex', flexDirection: 'column', gap: 3 }}>
+      <Stack direction={{ xs: 'column', sm: 'row' }} alignItems={{ xs: 'flex-start', sm: 'center' }} justifyContent="space-between">
         <Box>
           <Typography variant="h5" fontWeight={700}>Sessions</Typography>
           <Typography variant="body2" color="text.secondary">{workouts.length} total sessions</Typography>
@@ -64,19 +64,19 @@ export default function Sessions() {
       </Stack>
 
       <Grid container spacing={2}>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Today's Sessions</Typography>
             <Typography variant="h4" fontWeight={700} sx={{ mt: 0.5 }}>{todaySessions.length}</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Completed Today</Typography>
             <Typography variant="h4" fontWeight={700} color="success.main" sx={{ mt: 0.5 }}>{completedToday.length}</Typography>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <Paper elevation={0} sx={{ p: 2, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
             <Typography variant="caption" fontWeight={600} color="text.secondary">Upcoming</Typography>
             <Typography variant="h4" fontWeight={700} color="info.main" sx={{ mt: 0.5 }}>{workouts.filter(w => w.status === 'scheduled').length}</Typography>
