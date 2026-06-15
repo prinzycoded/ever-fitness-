@@ -141,7 +141,7 @@ export default function Sidebar() {
     height: '100vh',
     position: 'sticky',
     top: 0,
-    background: 'linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%)',
+    background: 'linear-gradient(180deg, rgba(15,15,26,0.92) 0%, rgba(26,26,46,0.85) 50%, rgba(15,15,26,0.92) 100%), url(https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&q=80) center/cover',
   }
 
   if (isDesktop) {
