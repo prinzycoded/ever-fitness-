@@ -3,16 +3,32 @@ import { Crosshair, CreditCard, CheckCircle, Calendar, TrendingDown, TrendingUp,
 import { useAuth } from '../stores/authStore'
 import { useApp } from '../stores/appStore'
 
-function StatCard({ label, value, icon: Icon, color }) {
+const STAT_GRADIENTS = {
+  'Goal': 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)',
+  'Membership': 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+  'Workouts Done': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+  'Upcoming': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+}
+
+function StatCard({ label, value, icon: Icon }) {
   return (
-    <Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+    <Paper elevation={0} sx={{
+      p: 2.5, borderRadius: 2.5, border: '1px solid', borderColor: 'divider',
+      transition: 'all 0.2s', cursor: 'default',
+      '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: 'primary.light' },
+    }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box>
           <Typography variant="body2" color="text.secondary" fontWeight={500}>{label}</Typography>
           <Typography variant="h6" fontWeight={700} color="text.primary" sx={{ mt: 0.25 }}>{value}</Typography>
         </Box>
-        <Box sx={{ width: 48, height: 48, borderRadius: 1.5, bgcolor: color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon size={22} className="text-white" />
+        <Box sx={{
+          width: 40, height: 40, borderRadius: 1.5, ml: 1.5,
+          background: STAT_GRADIENTS[label] || 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(168,85,247,0.2)',
+        }}>
+          <Icon size={18} color="white" />
         </Box>
       </Stack>
     </Paper>
@@ -42,16 +58,16 @@ export default function ClientDashboard() {
 
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} lg={3}>
-          <StatCard label="Goal" value={profile.goal || 'Not set'} icon={Crosshair} color="#a855f7" />
+          <StatCard label="Goal" value={profile.goal || 'Not set'} icon={Crosshair} />
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <StatCard label="Membership" value={profile.membership || 'Active'} icon={CreditCard} color="#3b82f6" />
+          <StatCard label="Membership" value={profile.membership || 'Active'} icon={CreditCard} />
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <StatCard label="Workouts Done" value={completedWorkouts} icon={CheckCircle} color="#22c55e" />
+          <StatCard label="Workouts Done" value={completedWorkouts} icon={CheckCircle} />
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
-          <StatCard label="Upcoming" value={myWorkouts.filter(w => w.status === 'scheduled').length} icon={Calendar} color="#eab308" />
+          <StatCard label="Upcoming" value={myWorkouts.filter(w => w.status === 'scheduled').length} icon={Calendar} />
         </Grid>
       </Grid>
 

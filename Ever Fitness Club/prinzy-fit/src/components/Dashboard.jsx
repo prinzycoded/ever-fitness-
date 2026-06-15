@@ -3,16 +3,32 @@ import { Box, Typography, Paper, Stack, Chip, Button, Dialog, DialogTitle, Dialo
 import { Users, Calendar, DollarSign, TrendingUp, X, Bell, CheckCircle } from 'lucide-react'
 import { useApp } from '../stores/appStore'
 
-function StatCard({ label, value, icon: Icon, color }) {
+const STAT_GRADIENTS = {
+  'Active Clients': 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+  'Upcoming Sessions': 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+  'Pending Payments': 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+  'Revenue (Month)': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+}
+
+function StatCard({ label, value, icon: Icon }) {
   return (
-    <Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
+    <Paper elevation={0} sx={{
+      p: 2.5, borderRadius: 2.5, border: '1px solid', borderColor: 'divider',
+      transition: 'all 0.2s', cursor: 'default',
+      '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: 'primary.light' },
+    }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box>
           <Typography variant="body2" color="text.secondary" fontWeight={500}>{label}</Typography>
           <Typography variant="h5" fontWeight={700} color="text.primary" sx={{ mt: 0.5 }}>{value}</Typography>
         </Box>
-        <Box sx={{ width: 48, height: 48, borderRadius: 1.5, bgcolor: color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Icon size={22} className="text-white" />
+        <Box sx={{
+          width: 40, height: 40, borderRadius: 1.5, ml: 1.5,
+          background: STAT_GRADIENTS[label] || 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: `0 4px 12px ${STAT_GRADIENTS[label] ? 'rgba(99,102,241,0.2)' : 'rgba(99,102,241,0.2)'}`,
+        }}>
+          <Icon size={18} color="white" />
         </Box>
       </Stack>
     </Paper>
@@ -41,7 +57,7 @@ function NotificationItem({ notification, onMarkRead, onClick }) {
       py: 1.5, borderBottom: '1px solid', borderColor: 'divider', '&:last-child': { borderBottom: 0 },
       cursor: 'pointer', transition: 'background 0.15s',
       '&:hover': { bgcolor: 'action.hover' },
-      ...(!notification.read ? { bgcolor: 'indigo.50', mx: -2, px: 2, borderRadius: 1 } : {})
+      ...(!notification.read ? { bgcolor: 'rgba(109, 40, 217, 0.06)', mx: -2, px: 2, borderRadius: 1 } : {})
     }} onClick={() => onClick(notification)}>
       <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: `${config.color}.main`, mt: 0.5, flexShrink: 0 }} />
       <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -52,7 +68,7 @@ function NotificationItem({ notification, onMarkRead, onClick }) {
         <Typography variant="caption" color="text.disabled">{notification.time}</Typography>
       </Box>
       {!notification.read && (
-        <Button size="small" onClick={(e) => { e.stopPropagation(); onMarkRead(notification.id) }} sx={{ minWidth: 'auto', fontSize: 12, fontWeight: 600, color: 'indigo.600', flexShrink: 0, p: 0 }}>
+          <Button size="small" onClick={(e) => { e.stopPropagation(); onMarkRead(notification.id) }} sx={{ minWidth: 'auto', fontSize: 12, fontWeight: 600, color: 'primary.main', flexShrink: 0, p: 0 }}>
           <X size={14} />
         </Button>
       )}
@@ -90,7 +106,7 @@ function NotificationDetail({ notification, open, onClose, onMarkRead }) {
       </DialogContent>
       <DialogActions>
         {!notification.read && (
-          <Button onClick={() => { onMarkRead(notification.id); onClose() }} size="small" variant="contained" sx={{ bgcolor: 'indigo.600' }}>
+            <Button onClick={() => { onMarkRead(notification.id); onClose() }} size="small" variant="contained">
             Mark as Read
           </Button>
         )}
@@ -119,10 +135,10 @@ export default function Dashboard() {
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 2 }}>
-        <StatCard label="Active Clients" value={activeClientsCount} icon={Users} color="#6366f1" />
-        <StatCard label="Upcoming Sessions" value={upcomingSessions} icon={Calendar} color="#3b82f6" />
-        <StatCard label="Pending Payments" value={`$${pendingPayments.toFixed(2)}`} icon={DollarSign} color="#eab308" />
-        <StatCard label="Revenue (Month)" value={`$${totalRevenue.toFixed(2)}`} icon={TrendingUp} color="#22c55e" />
+        <StatCard label="Active Clients" value={activeClientsCount} icon={Users} />
+        <StatCard label="Upcoming Sessions" value={upcomingSessions} icon={Calendar} />
+        <StatCard label="Pending Payments" value={`$${pendingPayments.toFixed(2)}`} icon={DollarSign} />
+        <StatCard label="Revenue (Month)" value={`$${totalRevenue.toFixed(2)}`} icon={TrendingUp} />
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 3 }}>

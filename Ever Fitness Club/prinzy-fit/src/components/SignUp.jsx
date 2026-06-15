@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import {
   Box, Paper, Typography, TextField, Button, Alert, Stack, Link, RadioGroup, Radio, FormControlLabel, FormControl, FormLabel
 } from '@mui/material'
-import { Dumbbell, Mail, Lock, User, LogIn } from 'lucide-react'
+import { Dumbbell, Mail, Lock, User, UserPlus, Zap } from 'lucide-react'
 import { useAuth } from '../stores/authStore'
 
 export default function SignUp() {
@@ -29,106 +29,136 @@ export default function SignUp() {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.50', display: 'flex', alignItems: 'center', justifyContent: 'center', p: 2 }}>
-      <Paper elevation={0} sx={{ p: { xs: 2.5, sm: 4 }, maxWidth: 400, width: '100%', borderRadius: 3, border: '1px solid', borderColor: 'divider' }}>
-        <Stack spacing={3} alignItems="center" sx={{ mb: 3 }}>
-          <Box sx={{ width: 56, height: 56, borderRadius: 2, bgcolor: 'indigo.100', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Dumbbell size={28} className="text-indigo-600" />
+    <Box sx={{
+      minHeight: '100vh',
+      display: 'flex',
+      background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%)',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <Box sx={{
+        position: 'absolute', inset: 0,
+        background: 'radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(16,185,129,0.08) 0%, transparent 60%)',
+        pointerEvents: 'none',
+      }} />
+
+      <Box sx={{
+        flex: { xs: 1, md: '0 0 460px' }, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        p: { xs: 2, md: 6 }, position: 'relative', zIndex: 1,
+      }}>
+        <Paper elevation={0} sx={{
+          p: { xs: 3, sm: 4 }, maxWidth: 420, width: '100%', borderRadius: 4,
+          bgcolor: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)',
+          boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
+        }}>
+          <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Box sx={{ width: 48, height: 48, borderRadius: 2, background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 1.5, boxShadow: '0 4px 12px rgba(124,58,237,0.3)' }}>
+              <Dumbbell size={24} color="white" />
+            </Box>
+            <Typography variant="h5" fontWeight={800}>Ever Fitness</Typography>
           </Box>
-          <Box textAlign="center">
-            <Typography variant="h4" fontWeight={700} color="grey.900">
-              Ever Fitness
-            </Typography>
-            <Typography variant="body2" color="grey.500" sx={{ mt: 0.5 }}>
-              Create your account
-            </Typography>
+
+          <Stack spacing={0.5} sx={{ mb: 3 }}>
+            <Typography variant="h5" fontWeight={800} color="text.primary">Create account</Typography>
+            <Typography variant="body2" color="text.secondary">Start your fitness journey today</Typography>
+          </Stack>
+
+          <Box component="form" onSubmit={handleSubmit}>
+            <Stack spacing={2.5}>
+              {error && (
+                <Alert severity="error" sx={{ borderRadius: 2, py: 0.5 }}>{error}</Alert>
+              )}
+              <TextField
+                label="Full Name"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="John Doe"
+                required
+                fullWidth
+                size="small"
+                slotProps={{ input: { startAdornment: <User size={18} className="text-gray-400 mr-2" /> } }}
+              />
+              <TextField
+                label="Email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                fullWidth
+                size="small"
+                slotProps={{ input: { startAdornment: <Mail size={18} className="text-gray-400 mr-2" /> } }}
+              />
+              <TextField
+                label="Password"
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                required
+                fullWidth
+                size="small"
+                slotProps={{ input: { startAdornment: <Lock size={18} className="text-gray-400 mr-2" /> } }}
+              />
+
+              <FormControl>
+                <FormLabel sx={{ fontSize: '0.875rem', color: 'text.secondary', mb: 0.5, fontWeight: 500 }}>I am a</FormLabel>
+                <RadioGroup row value={role} onChange={e => setRole(e.target.value)}>
+                  <FormControlLabel value="client" control={<Radio size="small" />} label="Client" />
+                  <FormControlLabel value="coach" control={<Radio size="small" />} label="Coach" />
+                </RadioGroup>
+              </FormControl>
+
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={submitting}
+                fullWidth
+                size="large"
+                startIcon={<UserPlus size={18} />}
+                sx={{ py: 1.3 }}
+              >
+                {submitting ? 'Creating account...' : 'Create Account'}
+              </Button>
+            </Stack>
           </Box>
-        </Stack>
 
-        <Box component="form" onSubmit={handleSubmit}>
-          <Stack spacing={2.5}>
-            {error && (
-              <Alert severity="error" sx={{ borderRadius: 2, py: 0.5 }}>
-                {error}
-              </Alert>
-            )}
+          <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 3 }}>
+            Already have an account?{' '}
+            <Link component={RouterLink} to="/login" fontWeight={700} color="primary.main" underline="hover">
+              Sign in
+            </Link>
+          </Typography>
+        </Paper>
+      </Box>
 
-            <TextField
-              label="Full Name"
-              value={name}
-              onChange={e => setName(e.target.value)}
-              placeholder="John Doe"
-              required
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  startAdornment: <User size={18} className="text-gray-400 mr-2" />,
-                },
-              }}
-            />
-
-            <TextField
-              label="Email"
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  startAdornment: <Mail size={18} className="text-gray-400 mr-2" />,
-                },
-              }}
-            />
-
-            <TextField
-              label="Password"
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
-              required
-              fullWidth
-              size="small"
-              slotProps={{
-                input: {
-                  startAdornment: <Lock size={18} className="text-gray-400 mr-2" />,
-                },
-              }}
-            />
-
-            <FormControl>
-              <FormLabel sx={{ fontSize: '0.875rem', color: 'grey.700', mb: 0.5 }}>I am a</FormLabel>
-              <RadioGroup row value={role} onChange={e => setRole(e.target.value)}>
-                <FormControlLabel value="client" control={<Radio size="small" />} label="Client" />
-                <FormControlLabel value="coach" control={<Radio size="small" />} label="Coach" />
-              </RadioGroup>
-            </FormControl>
-
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={submitting}
-              fullWidth
-              size="medium"
-              startIcon={<LogIn size={18} />}
-              sx={{ textTransform: 'none', fontWeight: 600, py: 1.2, borderRadius: 2, bgcolor: 'indigo.600', '&:hover': { bgcolor: 'indigo.700' } }}
-            >
-              {submitting ? 'Creating account...' : 'Create Account'}
-            </Button>
+      <Box sx={{
+        flex: 1, display: { xs: 'none', md: 'flex' }, flexDirection: 'column',
+        justifyContent: 'center', p: 8, position: 'relative', zIndex: 1,
+      }}>
+        <Box sx={{ maxWidth: 480, mx: 'auto' }}>
+          <Box sx={{ width: 64, height: 64, borderRadius: 2.5, background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3, boxShadow: '0 8px 32px rgba(124,58,237,0.3)' }}>
+            <Dumbbell size={32} color="white" />
+          </Box>
+          <Typography variant="h3" sx={{ color: 'white', fontWeight: 800, lineHeight: 1.2, mb: 1.5 }}>
+            Start Your Journey
+          </Typography>
+          <Typography variant="h3" sx={{ color: 'white', fontWeight: 800, lineHeight: 1.2, mb: 3 }}>
+            Today
+          </Typography>
+          <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.125rem', maxWidth: 400, lineHeight: 1.7 }}>
+            Join thousands of members who have transformed their lives with personalized coaching and data-driven workouts.
+          </Typography>
+          <Stack direction="row" spacing={3} sx={{ mt: 4 }}>
+            {['Smart Workouts', 'Track Progress', 'Expert Support'].map(label => (
+              <Stack key={label} direction="row" spacing={1} alignItems="center">
+                <Zap size={14} color="#10b981" />
+                <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>{label}</Typography>
+              </Stack>
+            ))}
           </Stack>
         </Box>
-
-        <Typography variant="body2" color="grey.500" align="center" sx={{ mt: 3 }}>
-          Already have an account?{' '}
-          <Link component={RouterLink} to="/login" fontWeight={600} color="indigo.600" underline="hover">
-            Sign in
-          </Link>
-        </Typography>
-      </Paper>
+      </Box>
     </Box>
   )
 }

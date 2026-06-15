@@ -47,9 +47,9 @@ function SidebarContent() {
         {({ isActive }) => (
           <Box sx={{
             display: 'flex', alignItems: 'center', gap: 1.5, px: 1.5, py: 1, borderRadius: 1.5,
-            bgcolor: isActive ? 'indigo.600' : 'transparent',
+            bgcolor: isActive ? 'primary.main' : 'transparent',
             color: isActive ? 'white' : 'grey.300',
-            '&:hover': { bgcolor: isActive ? 'indigo.600' : 'grey.800', color: 'white' },
+            '&:hover': { bgcolor: isActive ? 'primary.main' : 'grey.800', color: 'white', transform: 'translateX(2px)' },
             transition: 'all 0.15s', cursor: 'pointer',
           }}>
             <Icon size={18} />
@@ -62,46 +62,55 @@ function SidebarContent() {
 
   return (
     <>
-      <Box sx={{ px: 2.5, py: 2.5, borderBottom: '1px solid', borderColor: 'grey.700' }}>
+      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 2, md: 2.5 }, borderBottom: '1px solid', borderColor: 'grey.700' }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <Box sx={{ width: 36, height: 36, borderRadius: 1.5, bgcolor: 'indigo.600', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Box sx={{ width: { xs: 36, md: 40 }, height: { xs: 36, md: 40 }, borderRadius: 1.5, bgcolor: 'indigo.600', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <LogoIcon size={20} />
           </Box>
-          <Box>
-            <Typography variant="h6" fontWeight={700} lineHeight={1.2}>Ever Fitness</Typography>
-            <Typography variant="caption" color="grey.400">Coach · {coach?.name}</Typography>
+          <Box sx={{ minWidth: 0 }}>
+            <Typography variant="h6" fontWeight={700} lineHeight={1.2} sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}>Ever Fitness</Typography>
+            <Typography variant="caption" color="grey.400" sx={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Coach · {coach?.name}</Typography>
           </Box>
         </Stack>
       </Box>
 
-      <Box sx={{ flex: 1, px: 1.5, py: 1.5, overflow: 'auto' }}>
+      <Box sx={{ flex: 1, px: { xs: 1, md: 1.5 }, py: { xs: 1, md: 1.5 }, overflow: 'auto' }}>
         <Stack spacing={0.5}>
           {primaryLinks.map(renderLink)}
         </Stack>
 
-        <Typography variant="caption" color="grey.500" sx={{ display: 'block', px: 1.5, py: 1, mt: 1, fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
-          Booking Flow
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 2, pb: 0.75, mt: 0.5 }}>
+          <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: 'primary.main' }} />
+          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+            Booking Flow
+          </Typography>
+        </Box>
         <Stack spacing={0.5} sx={{ mb: 0.5 }}>
           {bookingLinks.map(renderLink)}
         </Stack>
 
-        <Typography variant="caption" color="grey.500" sx={{ display: 'block', px: 1.5, py: 1, fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
-          Tracking
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 1.5, pb: 0.75 }}>
+          <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: 'secondary.main' }} />
+          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+            Tracking
+          </Typography>
+        </Box>
         <Stack spacing={0.5} sx={{ mb: 0.5 }}>
           {trackingLinks.map(renderLink)}
         </Stack>
 
-        <Typography variant="caption" color="grey.500" sx={{ display: 'block', px: 1.5, py: 1, fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
-          Training Builder
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 1.5, pb: 0.75 }}>
+          <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: '#10b981' }} />
+          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+            Training Builder
+          </Typography>
+        </Box>
         <Stack spacing={0.5} sx={{ mb: 0.5 }}>
           {trainingLinks.map(renderLink)}
         </Stack>
       </Box>
 
-      <Box sx={{ px: 2.5, py: 2, borderTop: '1px solid', borderColor: 'grey.700' }}>
+      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 1.5, md: 2 }, borderTop: '1px solid', borderColor: 'grey.700' }}>
         <Stack spacing={1.5}>
           <Stack direction="row" spacing={1.5} alignItems="center" sx={{ color: 'grey.400' }}>
             <Badge badgeContent={unreadNotifications} color="error" slotProps={{ badge: { sx: { fontSize: 10, minWidth: 18, height: 18 } } }}>
@@ -130,10 +139,7 @@ export default function Sidebar() {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    backgroundImage: 'linear-gradient(rgba(15,15,25,0.92),rgba(15,15,25,0.92)),url(https://placehold.co/400x900/1e1b4b/indigo?text=)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
+    background: 'linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%)',
   }
 
   if (isDesktop) {
@@ -144,7 +150,7 @@ export default function Sidebar() {
     <>
       <IconButton
         onClick={() => setMobileOpen(true)}
-        sx={{ position: 'fixed', top: 8, left: 8, zIndex: 1200, bgcolor: 'grey.900', color: 'white', '&:hover': { bgcolor: 'grey.800' } }}
+        sx={{ position: 'fixed', top: 12, left: 12, zIndex: 1200, bgcolor: 'grey.900', color: 'white', '&:hover': { bgcolor: 'grey.800' } }}
       >
         <Menu size={20} />
       </IconButton>

@@ -36,7 +36,7 @@ import CoachNotes from './components/CoachNotes'
 
 function LoadingScreen({ message }) {
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', bgcolor: 'grey.50' }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Box sx={{ textAlign: 'center' }}>
         <CircularProgress size={32} />
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>{message}</Typography>
@@ -47,7 +47,7 @@ function LoadingScreen({ message }) {
 
 function CoachLayout() {
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'grey.50' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Sidebar />
       <Box sx={{ flex: 1, overflow: 'auto', pt: { xs: '48px', md: 0 } }}>
         <Routes>
@@ -76,7 +76,7 @@ function CoachLayout() {
 
 function ClientLayout() {
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'grey.50' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: 'background.default' }}>
       <ClientSidebar />
       <Box sx={{ flex: 1, overflow: 'auto', pt: { xs: '48px', md: 0 } }}>
         <Routes>
