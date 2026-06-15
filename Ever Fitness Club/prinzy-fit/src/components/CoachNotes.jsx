@@ -1,14 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Box, Typography, Paper, Stack, TextField, Button, MenuItem, IconButton } from '@mui/material'
 import { Send, Trash2, User, Clock } from 'lucide-react'
 import { useApp } from '../stores/appStore'
+import { db, ref, onValue } from '../firebase'
 
 export default function CoachNotes() {
   const { clients, coachingNotes, addCoachingNote, deleteCoachingNote } = useApp()
   const [selectedClient, setSelectedClient] = useState('')
   const [content, setContent] = useState('')
+  const [liveNotes, setLiveNotes] = useState([])
 
-  const clientNotes = coachingNotes
+  useEffect(() => {
+    const notesRef = ref(db, 'coachingNotes')
+    const unsub = onValue(notesRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        setLiveNotes(Object.values(data))
+      } else {
+        setLiveNotes([])
+      }
+    })
+    return () => unsub()
+  }, [])
+
+  const allNotes = liveNotes.length > 0 ? liveNotes : coachingNotes
+
+  const clientNotes = allNotes
     .filter(n => n.clientId === selectedClient)
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 

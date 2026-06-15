@@ -138,7 +138,9 @@ export default function Sidebar() {
     color: 'white',
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    height: '100vh',
+    position: 'sticky',
+    top: 0,
     background: 'linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%)',
   }
 

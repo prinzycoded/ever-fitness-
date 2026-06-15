@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import {
   Box, Paper, Typography, TextField, Button, Alert, Stack, Link
 } from '@mui/material'
@@ -8,6 +8,7 @@ import { useAuth } from '../stores/authStore'
 
 export default function Login() {
   const { login } = useAuth()
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -19,6 +20,7 @@ export default function Login() {
     setSubmitting(true)
     try {
       await login(email, password)
+      navigate('/')
     } catch (err) {
       setError(err.message)
     } finally {
