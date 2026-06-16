@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Box, Typography, Paper, Stack, Chip, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import { Users, Calendar, DollarSign, TrendingUp, X, Bell, CheckCircle } from 'lucide-react'
 import { useApp } from '../stores/appStore'
+import { useNavigate } from 'react-router-dom'
 
 const STAT_GRADIENTS = {
   'Active Clients': 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
@@ -10,13 +11,17 @@ const STAT_GRADIENTS = {
   'Revenue (Month)': 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
 }
 
-function StatCard({ label, value, icon: Icon }) {
+function StatCard({ label, value, icon: Icon, onClick }) {
   return (
-    <Paper elevation={0} sx={{
-      p: 2.5, borderRadius: 2.5, border: '1px solid', borderColor: 'divider',
-      transition: 'all 0.2s', cursor: 'default',
-      '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: 'primary.light' },
-    }}>
+    <Paper
+      elevation={0}
+      onClick={onClick}
+      sx={{
+        p: 2.5, borderRadius: 2.5, border: '1px solid', borderColor: 'divider',
+        transition: 'all 0.2s', cursor: onClick ? 'pointer' : 'default',
+        '&:hover': onClick ? { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: 'primary.light' } : {},
+      }}
+    >
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Box>
           <Typography variant="body2" color="text.secondary" fontWeight={500}>{label}</Typography>
@@ -118,6 +123,7 @@ function NotificationDetail({ notification, open, onClose, onMarkRead }) {
 
 export default function Dashboard() {
   const { clients, workouts, notifications, payments, activeClientsCount, upcomingSessions, pendingPayments, unreadNotifications, markNotificationRead } = useApp()
+  const navigate = useNavigate()
   const [selectedNotification, setSelectedNotification] = useState(null)
 
   const totalRevenue = payments
@@ -135,10 +141,10 @@ export default function Dashboard() {
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', lg: '1fr 1fr 1fr 1fr' }, gap: 2 }}>
-        <StatCard label="Active Clients" value={activeClientsCount} icon={Users} />
-        <StatCard label="Upcoming Sessions" value={upcomingSessions} icon={Calendar} />
-        <StatCard label="Pending Payments" value={`$${pendingPayments.toFixed(2)}`} icon={DollarSign} />
-        <StatCard label="Revenue (Month)" value={`$${totalRevenue.toFixed(2)}`} icon={TrendingUp} />
+        <StatCard label="Active Clients" value={activeClientsCount} icon={Users} onClick={() => navigate('/clients')} />
+        <StatCard label="Upcoming Sessions" value={upcomingSessions} icon={Calendar} onClick={() => navigate('/sessions')} />
+        <StatCard label="Pending Payments" value={`$${pendingPayments.toFixed(2)}`} icon={DollarSign} onClick={() => navigate('/activity')} />
+        <StatCard label="Revenue (Month)" value={`$${totalRevenue.toFixed(2)}`} icon={TrendingUp} onClick={() => navigate('/activity')} />
       </Box>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, gap: 3 }}>

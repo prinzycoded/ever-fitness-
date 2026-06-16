@@ -1,7 +1,8 @@
 import { Box, Typography, Paper, Stack, Grid } from '@mui/material'
-import { Crosshair, CreditCard, CheckCircle, Calendar, TrendingDown, TrendingUp, Minus } from 'lucide-react'
+import { Crosshair, CreditCard, CheckCircle, Calendar, TrendingDown, TrendingUp, Minus, ArrowRight } from 'lucide-react'
 import { useAuth } from '../stores/authStore'
 import { useApp } from '../stores/appStore'
+import { useNavigate } from 'react-router-dom'
 
 const STAT_GRADIENTS = {
   'Goal': 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)',
@@ -38,6 +39,7 @@ function StatCard({ label, value, icon: Icon }) {
 export default function ClientDashboard() {
   const { profile } = useAuth()
   const { workouts, progress, coach } = useApp()
+  const navigate = useNavigate()
 
   const myWorkouts = workouts.filter(w => w.clientId === profile?.id || w.clientId === profile?.email)
   const myProgress = progress.filter(p => p.clientId === profile?.id || p.clientId === profile?.email)
@@ -101,8 +103,19 @@ export default function ClientDashboard() {
         </Grid>
 
         <Grid item xs={12} lg={6}>
-          <Paper elevation={0} sx={{ p: 2.5, borderRadius: 2, border: '1px solid', borderColor: 'divider' }}>
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 2 }}>Your Coach</Typography>
+          <Paper
+            elevation={0}
+            onClick={() => navigate('/my-coach')}
+            sx={{
+              p: 2.5, borderRadius: 2, border: '1px solid', borderColor: 'divider',
+              cursor: 'pointer', transition: 'all 0.2s',
+              '&:hover': { boxShadow: '0 4px 12px rgba(0,0,0,0.08)', borderColor: 'primary.light' },
+            }}
+          >
+            <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+              <Typography variant="h6" fontWeight={600}>Your Coach</Typography>
+              <ArrowRight size={18} className="text-gray-400" />
+            </Stack>
             {coach && (
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2} alignItems="center">
