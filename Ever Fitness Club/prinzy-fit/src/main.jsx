@@ -1,23 +1,24 @@
-import { StrictMode } from 'react'
+import { useMemo, useEffect, StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material'
 import './index.css'
 import App from './App.jsx'
+import { useThemeMode } from './stores/themeStore'
 
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: { main: '#6d28d9', light: '#8b5cf6', dark: '#5b21b6' },
-    secondary: { main: '#059669', light: '#10b981', dark: '#047857' },
-    success: { main: '#059669' },
-    info: { main: '#2563eb' },
-    warning: { main: '#d97706' },
-    error: { main: '#dc2626' },
-    background: { default: '#f1f5f9', paper: '#ffffff' },
-    text: { primary: '#0f172a', secondary: '#475569' },
-    divider: '#e2e8f0',
-  },
+const lightPalette = {
+  background: { default: '#f1f5f9', paper: '#ffffff' },
+  text: { primary: '#0f172a', secondary: '#475569' },
+  divider: '#e2e8f0',
+}
+
+const darkPalette = {
+  background: { default: '#0f0f1a', paper: '#1a1a2e' },
+  text: { primary: '#e2e8f0', secondary: '#94a3b8' },
+  divider: '#2d2d44',
+}
+
+const commonTheme = {
   typography: {
     fontFamily: '"Inter", "Plus Jakarta Sans", "Roboto", sans-serif',
     h4: { fontWeight: 800, letterSpacing: '-0.02em' },
@@ -79,15 +80,13 @@ const theme = createTheme({
             fontSize: '0.75rem',
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
-            color: '#64748b',
-            backgroundColor: '#f8fafc',
           },
         },
       },
     },
     MuiTableCell: {
       styleOverrides: {
-        root: { borderBottomColor: '#f1f5f9', padding: '12px 16px' },
+        root: { padding: '12px 16px' },
       },
     },
     MuiChip: {
@@ -145,15 +144,42 @@ const theme = createTheme({
       },
     },
   },
-})
+}
+
+function ThemedApp() { // eslint-disable-line react-refresh/only-export-components
+  const { mode } = useThemeMode()
+
+  useEffect(() => {
+    document.documentElement.classList.remove('light', 'dark')
+    document.documentElement.classList.add(mode)
+  }, [mode])
+
+  const theme = useMemo(() => createTheme({
+    palette: {
+      mode,
+      primary: { main: '#6d28d9', light: '#8b5cf6', dark: '#5b21b6' },
+      secondary: { main: '#059669', light: '#10b981', dark: '#047857' },
+      success: { main: '#059669' },
+      info: { main: '#2563eb' },
+      warning: { main: '#d97706' },
+      error: { main: '#dc2626' },
+      ...(mode === 'dark' ? darkPalette : lightPalette),
+    },
+    ...commonTheme,
+  }), [mode])
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
+  )
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
+      <ThemedApp />
     </BrowserRouter>
   </StrictMode>,
 )

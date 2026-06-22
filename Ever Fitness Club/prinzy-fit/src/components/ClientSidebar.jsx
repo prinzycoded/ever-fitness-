@@ -1,12 +1,13 @@
 import { useState, useCallback } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Box, Typography, Stack, ButtonBase, Drawer, IconButton, useMediaQuery } from '@mui/material'
+import { Box, Typography, Stack, ButtonBase, Drawer, IconButton, useMediaQuery, Tooltip } from '@mui/material'
 import {
   LayoutDashboard, ClipboardList, TrendingUp,
   User, LogOut, Dumbbell as LogoIcon, CalendarCheck, CreditCard,
-  CheckSquare, Camera, BookOpen, Menu
+  CheckSquare, Camera, BookOpen, Menu, Moon, Sun
 } from 'lucide-react'
 import { useAuth } from '../stores/authStore'
+import { useThemeMode } from '../stores/themeStore'
 
 const primaryLinks = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -31,6 +32,7 @@ const trackingLinks = [
 
 function SidebarContent() {
   const { profile, logout } = useAuth()
+  const { isDark, toggleTheme } = useThemeMode()
   const handleLogout = useCallback(() => logout(), [logout])
 
   const renderLink = (l) => {
@@ -41,8 +43,8 @@ function SidebarContent() {
           <Box sx={{
             display: 'flex', alignItems: 'center', gap: 1.5, px: 1.5, py: 1, borderRadius: 1.5,
             bgcolor: isActive ? 'primary.main' : 'transparent',
-            color: isActive ? 'white' : 'grey.300',
-            '&:hover': { bgcolor: isActive ? 'primary.main' : 'grey.800', color: 'white', transform: 'translateX(2px)' },
+            color: isActive ? 'white' : (isDark ? 'grey.300' : 'grey.700'),
+            '&:hover': { bgcolor: isActive ? 'primary.main' : (isDark ? 'grey.800' : 'grey.100'), color: isActive ? 'white' : (isDark ? 'white' : 'grey.900'), transform: 'translateX(2px)' },
             transition: 'all 0.15s', cursor: 'pointer',
           }}>
             <Icon size={18} />
@@ -55,14 +57,14 @@ function SidebarContent() {
 
   return (
     <>
-      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 2, md: 2.5 }, borderBottom: '1px solid', borderColor: 'grey.700' }}>
+      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 2, md: 2.5 }, borderBottom: '1px solid', borderColor: isDark ? 'grey.700' : 'grey.200' }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
           <Box sx={{ width: { xs: 36, md: 40 }, height: { xs: 36, md: 40 }, borderRadius: 1.5, bgcolor: 'indigo.600', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <LogoIcon size={20} />
           </Box>
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="h6" fontWeight={700} lineHeight={1.2} sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}>Ever Fitness</Typography>
-            <Typography variant="caption" color="grey.400" sx={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Client · {profile?.name}</Typography>
+            <Typography variant="caption" color={isDark ? 'grey.400' : 'grey.500'} sx={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Client · {profile?.name}</Typography>
           </Box>
         </Stack>
       </Box>
@@ -74,7 +76,7 @@ function SidebarContent() {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 2, pb: 0.75, mt: 0.5 }}>
           <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: 'primary.main' }} />
-          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+          <Typography variant="caption" color={isDark ? 'grey.500' : 'grey.500'} sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
             Booking
           </Typography>
         </Box>
@@ -84,7 +86,7 @@ function SidebarContent() {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 1.5, pb: 0.75 }}>
           <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: 'secondary.main' }} />
-          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+          <Typography variant="caption" color={isDark ? 'grey.500' : 'grey.500'} sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
             Training
           </Typography>
         </Box>
@@ -94,7 +96,7 @@ function SidebarContent() {
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: { xs: 1, md: 1.5 }, pt: 1.5, pb: 0.75 }}>
           <Box sx={{ width: 2, height: 10, borderRadius: 1, bgcolor: '#10b981' }} />
-          <Typography variant="caption" color="grey.500" sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
+          <Typography variant="caption" color={isDark ? 'grey.500' : 'grey.500'} sx={{ fontWeight: 600, fontSize: 10, textTransform: 'uppercase', letterSpacing: 1 }}>
             Tracking
           </Typography>
         </Box>
@@ -103,13 +105,23 @@ function SidebarContent() {
         </Stack>
       </Box>
 
-      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 1.5, md: 2 }, borderTop: '1px solid', borderColor: 'grey.700' }}>
-        <ButtonBase onClick={handleLogout} sx={{ justifyContent: 'flex-start', py: 0.5, px: 0.5, borderRadius: 1, color: 'grey.400', '&:hover': { color: 'white', bgcolor: 'grey.800' }, width: '100%' }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <LogOut size={16} />
-            <Typography variant="body2">Sign Out</Typography>
-          </Stack>
-        </ButtonBase>
+      <Box sx={{ px: { xs: 2, md: 2.5 }, py: { xs: 1.5, md: 2 }, borderTop: '1px solid', borderColor: isDark ? 'grey.700' : 'grey.200' }}>
+        <Stack spacing={1.5}>
+          <Tooltip title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'} placement="right">
+            <ButtonBase onClick={toggleTheme} sx={{ justifyContent: 'flex-start', py: 0.5, px: 0.5, borderRadius: 1, color: isDark ? 'grey.400' : 'grey.600', '&:hover': { color: isDark ? 'white' : 'grey.900', bgcolor: isDark ? 'grey.800' : 'grey.200' }, width: '100%' }}>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                {isDark ? <Sun size={16} /> : <Moon size={16} />}
+                <Typography variant="body2">{isDark ? 'Light Mode' : 'Dark Mode'}</Typography>
+              </Stack>
+            </ButtonBase>
+          </Tooltip>
+          <ButtonBase onClick={handleLogout} sx={{ justifyContent: 'flex-start', py: 0.5, px: 0.5, borderRadius: 1, color: isDark ? 'grey.400' : 'grey.600', '&:hover': { color: isDark ? 'white' : 'grey.900', bgcolor: isDark ? 'grey.800' : 'grey.200' }, width: '100%' }}>
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <LogOut size={16} />
+              <Typography variant="body2">Sign Out</Typography>
+            </Stack>
+          </ButtonBase>
+        </Stack>
       </Box>
     </>
   )
@@ -118,8 +130,9 @@ function SidebarContent() {
 export default function ClientSidebar() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { isDark } = useThemeMode()
 
-  const sidebarBg = {
+  const sidebarBg = isDark ? {
     color: 'white',
     display: 'flex',
     flexDirection: 'column',
@@ -127,6 +140,16 @@ export default function ClientSidebar() {
     position: 'sticky',
     top: 0,
     background: 'linear-gradient(180deg, rgba(15,15,26,0.92) 0%, rgba(26,26,46,0.85) 50%, rgba(15,15,26,0.92) 100%), url(https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&q=80) center/cover',
+  } : {
+    color: 'text.primary',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    position: 'sticky',
+    top: 0,
+    background: '#ffffff',
+    borderRight: '1px solid',
+    borderColor: 'divider',
   }
 
   if (isDesktop) {
@@ -137,7 +160,7 @@ export default function ClientSidebar() {
     <>
       <IconButton
         onClick={() => setMobileOpen(true)}
-        sx={{ position: 'fixed', top: 12, left: 12, zIndex: 1200, bgcolor: 'grey.900', color: 'white', '&:hover': { bgcolor: 'grey.800' } }}
+        sx={{ position: 'fixed', top: 12, left: 12, zIndex: 1200, bgcolor: isDark ? 'grey.900' : 'grey.800', color: 'white', '&:hover': { bgcolor: isDark ? 'grey.800' : 'grey.700' } }}
       >
         <Menu size={20} />
       </IconButton>
