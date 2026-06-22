@@ -93,7 +93,7 @@ export default function Login() {
       }}>
         <Paper elevation={0} sx={{
           p: { xs: 3, sm: 4 }, maxWidth: 420, width: '100%', borderRadius: 4,
-          bgcolor: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)',
+          bgcolor: 'background.paper', backdropFilter: 'blur(20px)',
           boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
         }}>
           <Box sx={{ display: { xs: 'block', md: 'none' }, textAlign: 'center', mb: 3 }}>

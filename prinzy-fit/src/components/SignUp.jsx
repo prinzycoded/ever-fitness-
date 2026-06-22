@@ -32,14 +32,24 @@ export default function SignUp() {
     <Box sx={{
       minHeight: '100vh',
       display: 'flex',
-      background: 'linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%)',
+      backgroundImage: 'url(https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80)',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
       position: 'relative',
       overflow: 'hidden',
+      '&::before': {
+        content: '""',
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(135deg, rgba(15,15,26,0.9) 0%, rgba(26,26,46,0.75) 50%, rgba(15,15,26,0.9) 100%)',
+        zIndex: 0,
+      },
     }}>
       <Box sx={{
         position: 'absolute', inset: 0,
         background: 'radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.12) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(16,185,129,0.08) 0%, transparent 60%)',
-        pointerEvents: 'none',
+        pointerEvents: 'none', zIndex: 0,
       }} />
 
       <Box sx={{
@@ -48,7 +58,7 @@ export default function SignUp() {
       }}>
         <Paper elevation={0} sx={{
           p: { xs: 3, sm: 4 }, maxWidth: 420, width: '100%', borderRadius: 4,
-          bgcolor: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(20px)',
+          bgcolor: 'background.paper', backdropFilter: 'blur(20px)',
           boxShadow: '0 25px 50px rgba(0,0,0,0.25)',
         }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
@@ -135,8 +145,15 @@ export default function SignUp() {
       <Box sx={{
         flex: 1, display: { xs: 'none', md: 'flex' }, flexDirection: 'column',
         justifyContent: 'center', p: 8, position: 'relative', zIndex: 1,
+        backgroundImage: 'url(https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80)',
+        backgroundSize: 'cover', backgroundPosition: 'center',
+        '&::before': {
+          content: '""', position: 'absolute', inset: 0,
+          background: 'linear-gradient(135deg, rgba(15,15,26,0.85) 0%, rgba(26,26,46,0.7) 50%, rgba(15,15,26,0.85) 100%)',
+          zIndex: 0,
+        },
       }}>
-        <Box sx={{ maxWidth: 480, mx: 'auto' }}>
+        <Box sx={{ maxWidth: 480, mx: 'auto', position: 'relative', zIndex: 1 }}>
           <Box sx={{ width: 64, height: 64, borderRadius: 2.5, background: 'linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3, boxShadow: '0 8px 32px rgba(124,58,237,0.3)' }}>
             <Dumbbell size={32} color="white" />
           </Box>
